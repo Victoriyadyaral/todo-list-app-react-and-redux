@@ -2,10 +2,12 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import TodoPage from './page/TodoPage'
+
 function App() {
   return (
-    <div className="App">
-      <h1>TODO</h1>
+    <>
+      <TodoPage />
        <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -16,8 +18,9 @@ function App() {
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          />
-    </div>
+      />
+    </>
+      
   );
 }
 

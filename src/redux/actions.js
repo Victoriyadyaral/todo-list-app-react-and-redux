@@ -1,18 +1,24 @@
-import shortid from 'shortid';
+//import shortid from 'shortid';
 import types from './action-type';
-import { getCurrentDay, getDatesFromStr } from '../js/get-date';
+import createTodo from '../js/createTodo';
+// import { getCurrentDay, getDatesFromStr } from '../js/get-date';
 
-const addTodo = (contentText, titleText, categoryOption) => ({
+// const addTodo = (contentText, titleText, categoryOption) => ({
+//   type: types.ADD,
+//   payload: {
+//     id: shortid.generate(),
+//     content: contentText,
+//     created: getCurrentDay(),
+//     isArchived: false,
+//     title: titleText,
+//     category: categoryOption,
+//     dates: [getDatesFromStr(contentText)]
+//   },
+// });
+
+const addTodo = (titleText, contentText, categoryOption) => ({
   type: types.ADD,
-  payload: {
-    id: shortid.generate(),
-    content: contentText,
-    created: getCurrentDay(),
-    isArchived: false,
-    title: titleText,
-    category: categoryOption,
-    dates: [getDatesFromStr(contentText)]
-  },
+  payload: createTodo(contentText, titleText, categoryOption),
 });
 
 const deleteTodo = todoId => ({
@@ -35,4 +41,5 @@ const updateTodo = todoId => ({
   payload: todoId,
 });
 
-export default { addTodo, deleteTodo, archivedTodo, unArchivedTodo, updateTodo };
+const todoActions = { addTodo, deleteTodo, archivedTodo, unArchivedTodo, updateTodo };
+export default todoActions;
