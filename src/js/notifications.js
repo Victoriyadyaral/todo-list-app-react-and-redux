@@ -12,7 +12,7 @@ const notifications = {
         toast.warning("Deleted!");
     },
     successAdd() {
-        toast.info("Todo Added, success!")
+        toast.success("Todo Added, success!")
     }
 }
 

@@ -1,5 +1,4 @@
 import shortid from 'shortid';
-import notifications from './notifications.js';
 import getDate from './get-date';
 
 const { getCurrentDay, getDatesFromStr } = getDate;
@@ -15,7 +14,7 @@ const createTodo = (contentText, titleText, categoryOption) => {
             category: categoryOption,
             dates: getDatesFromStr(contentText),
         };
-        notifications.success();
+
         return newTodo;
 }
 

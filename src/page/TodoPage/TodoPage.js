@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, NavLink, Route, Redirect, useLocation, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import todoActions from '../../redux/actions';
+import notifications from '../../js/notifications';
 
-import Container from '../../components/Container/Container';
 import TodoEditor from '../../components/TodoEditor/TodoEditor';
 import Modal from '../../components/Modal/Modal';
 import TodoTable from '../../components/TodoTable/TodoTable';
@@ -15,8 +15,10 @@ import Button from '../../components/Button/Button';
 import s from "./TodoPage.module.css";
 
 
-function TodosPage({ todos,  onDeleteTodo, onArchivedTodo, onUpdateTodo, onUnarchivedTodo }) {
-  const [showModal, setShowModal] = useState(false)
+function TodosPage({ todos,  onDeleteTodo, onArchivedTodo, onUnarchivedTodo, onUpdateTodo }) {
+  const [showModal, setShowModal] = useState(false);
+  const [todoId, setTodoId] = useState('');
+  const [updatedTodo, setUpdatedTodo] = useState({})
   const location = useLocation();
   const history = useHistory();
 
@@ -27,12 +29,32 @@ function TodosPage({ todos,  onDeleteTodo, onArchivedTodo, onUpdateTodo, onUnarc
     setShowModal( !showModal);
   };
 
+  useEffect(() => {
+    if (todoId === '') {
+      return;
+     }
+    const todo = unArchivedTodos.find(todo => todo.id === todoId);
+
+    setUpdatedTodo(todo);
+    toggleModal();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todoId]);
+
+  const onUpdateTodos = (id) => {
+    setTodoId(id)
+  }
+
   function onGoBack() {
     history.push('/');
   }
 
+  function onDeleteTodoInRow(id) {
+    onDeleteTodo(id);
+    notifications.warning();
+  }
+
     return (
-        <Container>
+        <>
         <h1>TODO APP</h1>
         <div className={s.buttonWrap}>
         <Button buttonName={'Go back'} onClick={onGoBack} />
@@ -40,9 +62,9 @@ function TodosPage({ todos,  onDeleteTodo, onArchivedTodo, onUpdateTodo, onUnarc
         </div>
         <TodoTable
           todos={unArchivedTodos}
-          onDeleteTodo={onDeleteTodo}
+          onDeleteTodo={onDeleteTodoInRow}
           onArchivedTodo={onArchivedTodo}
-          onUpdateTodo={onUpdateTodo}
+          onUpdateTodo={onUpdateTodos}
         />
         <div>
         <NavLink
@@ -90,16 +112,13 @@ function TodosPage({ todos,  onDeleteTodo, onArchivedTodo, onUpdateTodo, onUnarc
       
         {showModal && (
           <Modal onClose={toggleModal}>
-            <TodoEditor />
+            <TodoEditor updatedTodo={updatedTodo} onDeleteTodo={onDeleteTodo} onUpdateTodo={onUpdateTodo} />
           </Modal>
         )}
-      </Container>
+      </>
     );
 }
 
-// const getTodos = (todos, boolean) =>
-//   todos.filter(todo => todo.isArchived === boolean
-//   );
 
 const mapStateToProps = ( todos ) => ({
  todos
@@ -109,7 +128,7 @@ const mapDispatchToProps = dispatch => ({
   onDeleteTodo: (id) => dispatch(todoActions.deleteTodo(id)),
   onArchivedTodo: (id) => dispatch(todoActions.archivedTodo(id)),
   onUnarchivedTodo: (id) => dispatch(todoActions.unArchivedTodo(id)),
-  onUpdateTodo: () => dispatch(todoActions.updateTodo()),
+  onUpdateTodo: (id) => dispatch(todoActions.updateTodo(id)),
 });
  
 export default connect(mapStateToProps, mapDispatchToProps)(TodosPage);

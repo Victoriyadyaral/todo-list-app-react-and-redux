@@ -1,19 +1,28 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import shortid from 'shortid';
 import { ImPlus } from "react-icons/im";
-import todosActions from '../../redux/actions';
+
+import todoActions from '../../redux/actions';
 import notifications from '../../js/notifications';
 import s from './TodoEditor.module.css';
 
-function TodoEditor({ onSubmit }) {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+function TodoEditor({todos,  onSubmit, updatedTodo, onDeleteTodo }) {
+  const [title, setTitle] = useState(updatedTodo.title ?? '');
+  const [content, setContent] = useState(updatedTodo.content ?? '');
   const [category, setCategory] = useState('task');
     
   const titleInputId = shortid.generate();
   const contentInputId = shortid.generate();
+
+  const reset = () => {
+      setTitle('');
+      setContent('');
+      setCategory('task');
+    updatedTodo = {};
+  }
+
 
   const handleChange = e => {
     const { name, value } = e.currentTarget;
@@ -36,17 +45,14 @@ function TodoEditor({ onSubmit }) {
     }
   };
 
-  const reset = () => {
-      setTitle('');
-      setContent('');
-      setCategory('task')
-    }
-
   const handleSubmit = e => {
     e.preventDefault();
-    const newCategory = category.split(/-/).map(word => word[0]?.toUpperCase() + word.substring(1)).join(' ');
-    onSubmit(title, content, newCategory);
-
+    if (updatedTodo?.title && updatedTodo?.content) {
+      onDeleteTodo(updatedTodo.id);
+    } 
+      const newCategory = category.split(/-/).map(word => word[0]?.toUpperCase() + word.substring(1)).join(' ');
+      onSubmit(title, content, newCategory);
+  
     reset();
   };
 
@@ -98,18 +104,19 @@ function TodoEditor({ onSubmit }) {
         </select>
     </form>
     );
-}
+};
 
-const mapStateToProps = state => ({
-  todos: state.todos, 
+const mapStateToProps = ( todos ) => ({
+ todos
 });
 
 const mapDispatchToProps = dispatch => ({
+  
   onSubmit: (title, content, category) => {
     if (title === '' || content === '' || category === '') {
       return notifications.error();
     };
-    dispatch(todosActions.addTodo(title, content, category));
+    dispatch(todoActions.addTodo(title, content, category));
     notifications.successAdd();
   },
 });

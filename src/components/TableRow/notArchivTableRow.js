@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ImPencil, ImBoxAdd, ImBin } from "react-icons/im";
 
-import './TableRow.module.css'
+import s from './TableRow.module.css'
 
 const TodoNotArchTableRow = ({
     id,
@@ -24,17 +24,17 @@ const TodoNotArchTableRow = ({
     <td >{content}</td>
     <td >{dates}</td>
     <td >
-        <button type="button" onClick={() => onUpdateTodo()}>
+        <button className={s.button} type="button" onClick={() => onUpdateTodo(id)}>
           <ImPencil color="rgb(63, 14, 99)" size="20px"/>
         </button>
     </td>
     <td >
-        <button type="button"  onClick={() => onArchivedTodo(id)}>
+        <button className={s.button} type="button"  onClick={() => onArchivedTodo(id)}>
             <ImBoxAdd color="rgb(63, 14, 99)" size="20px"/>
         </button>
     </td>
     <td >
-        <button type="button" onClick={() => onDeleteTodo(id)}>
+        <button className={s.button} type="button" onClick={() => onDeleteTodo(id)}>
             <ImBin color="rgb(63, 14, 99)" size="20px"/>
         </button>
     </td>
