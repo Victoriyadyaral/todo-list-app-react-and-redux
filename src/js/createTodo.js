@@ -5,8 +5,7 @@ import getDate from './get-date';
 const { getCurrentDay, getDatesFromStr } = getDate;
 
 const createTodo = (contentText, titleText, categoryOption) => {
-    
-    if (contentText && titleText) {
+
         const newTodo = {
             id: shortid.generate(),
             content: contentText,
@@ -18,9 +17,6 @@ const createTodo = (contentText, titleText, categoryOption) => {
         };
         notifications.success();
         return newTodo;
-    } else {
-        notifications.error();
-    }
-};
+}
 
 export default createTodo;

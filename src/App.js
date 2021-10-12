@@ -2,12 +2,12 @@
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import TodoPage from './page/TodoPage'
+import TodosPage from './page/TodoPage/TodoPage';
 
 function App() {
   return (
     <>
-      <TodoPage />
+      <TodosPage />
        <ToastContainer
           position="top-right"
           autoClose={3000}

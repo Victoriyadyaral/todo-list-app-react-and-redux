@@ -6,7 +6,7 @@ const notifications = {
     },
 
     error() {
-        toast.error("No notes were created. Please enter a title or content for the note!");
+        toast.error("No notes were created. Please enter a title or content and choose the category of the note!");
     },
     warning() {
         toast.warning("Deleted!");

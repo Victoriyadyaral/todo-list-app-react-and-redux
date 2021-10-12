@@ -1,11 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+
 const TodoTableColumn = ({ columns }) => {
     return (
+       
         <tr>
             {columns.map((column, index) => (
-                <td id={index}>{column}</td>
+                <td key={index + 'column'}>{column}</td>
             ))}
         </tr>
     )

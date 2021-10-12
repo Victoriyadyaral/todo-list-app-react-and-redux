@@ -11,4 +11,5 @@ const getDatesFromStr = (str) => {
     return dates === null ? [] : dates;
 }
 
-export default { getCurrentDay, getDatesFromStr };
+const getDate = { getCurrentDay, getDatesFromStr };
+export default getDate;

@@ -1,6 +1,6 @@
 const todos = [
     {
-        id: 1,
+        id: "111",
         title: "Shopping list",
         created: "October 02, 2021",
         category: "Task",
@@ -9,7 +9,7 @@ const todos = [
         dates: []
     },
     {
-        id: 2,
+        id: "222",
         title: "The theory of ...",
         created: "October 02, 2021",
         category: "Random Thought",
@@ -18,7 +18,7 @@ const todos = [
         dates: []
     },
     {
-        id: 3,
+        id: "333",
         title: "New feature",
         created: "October 03, 2021",
         category: "Idea",
@@ -27,7 +27,7 @@ const todos = [
         dates: ["05.10.2021"]
     },
     {
-        id: 4,
+        id: "444",
         title: "William Gaddis",
         created: "October 01, 2021",
         category: "Quote",
@@ -36,7 +36,7 @@ const todos = [
         dates: []
     },
     {
-        id: 5,
+        id: "555",
         title: "Books",
         created: "September 23, 2021",
         category: "Task",
@@ -45,7 +45,7 @@ const todos = [
         dates: []
     },
     {
-        id: 6,
+        id: "666",
         title: "Deadline day",
         created: "October 03, 2021",
         category: "Task",
@@ -54,7 +54,7 @@ const todos = [
         dates: ["15.10.2021"]
     },
     {
-        id: 7,
+        id: "777",
         title: "Theodore Dreiser",
         created: "October 03, 2021",
         category: "Quote",

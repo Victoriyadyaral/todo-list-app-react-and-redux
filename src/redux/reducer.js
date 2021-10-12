@@ -9,24 +9,15 @@ const todoReducer = (state = todos, { type, payload }) => {
     case types.DELETE:
       return state.filter(({ id }) => id !== payload);
       
-    // case types.UPDATE:
-    //    return state.filter(({ id }) => id !== payload);
+    case types.UPDATE:
+      //state.filter(({ id }) => id !== payload);
+       return console.log('updated')
 
     case types.ARCHIVED:
-      return state.map((todo) => {
-        if (todo.id === payload) {
-          todo.isArchived = true;
-        }
-        return state;
-      });
+      return state.map((todo) => todo.id === payload ? { ...todo, isArchived: !todo.isArchived } : todo);
       
     case types.UNARCHIVED:
-    return state.map((todo) => {
-        if (todo.id === payload) {
-          todo.isArchived = false;
-      }
-      return state;
-      });
+      return state.map((todo) => todo.id === payload ? { ...todo, isArchived: !todo.isArchived } : todo);
     
     default:
       return state;

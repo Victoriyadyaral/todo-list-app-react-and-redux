@@ -4,12 +4,13 @@ import { useState } from 'react';
 import shortid from 'shortid';
 import { ImPlus } from "react-icons/im";
 import todosActions from '../../redux/actions';
-// import './TodoEditor.scss';
+import notifications from '../../js/notifications';
+import s from './TodoEditor.module.css';
 
 function TodoEditor({ onSubmit }) {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [category, setCategory] = useState('idea');
+  const [category, setCategory] = useState('task');
     
   const titleInputId = shortid.generate();
   const contentInputId = shortid.generate();
@@ -38,52 +39,51 @@ function TodoEditor({ onSubmit }) {
   const reset = () => {
       setTitle('');
       setContent('');
-      setCategory({ value: 'idea' })
+      setCategory('task')
     }
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    onSubmit(title, content, category);
+    const newCategory = category.split(/-/).map(word => word[0]?.toUpperCase() + word.substring(1)).join(' ');
+    onSubmit(title, content, newCategory);
 
     reset();
   };
 
     return (
-      <section className="container">
-    <form className="add-todo__form" onSubmit = {handleSubmit}>
-        <h2 className="add-todo__text">Create a new ToDo</h2>
-        <button type="submit" className="add-todo__btn btn button" id="addTodo">
-           Add todo  <ImPlus color="rgb(11, 100, 11)" size="30px"/>
+    <form onSubmit = {handleSubmit}>
+        <h3 className={s.formTitle}>Create a new ToDo</h3>
+          <button type="submit" className={s.button}>
+           Add todo  <ImPlus color="rgb(8, 99, 23)" size="15px"/>
         </button>
-        <label htmlFor = {titleInputId}>
+        <label htmlFor = {titleInputId} className={s.formLabel}>
             Title
           <input
             type="text"
             name="title"
-            placeholder="Add title your new todo"
-            // className={s.input}
+            placeholder="Enter title your new todo"
+            className={s.input}
             value={title}
             onChange = {handleChange}
             id={titleInputId}
             autoComplete = "off"
           />
         </label>
-        <label htmlFor = {contentInputId}>
+        <label htmlFor = {contentInputId} className={s.formLabel}>
             Content
           <input
             type="text"
             name="content"
-            // className={s.input}
+            className={s.input}
             value={content}
             onChange = {handleChange}
-            placeholder="Add content your new todo"
+            placeholder="Enter content your new todo"
             id={contentInputId}
             autoComplete = "off"
           />
            </label>
-            <p>Enter the date like dd.mm.yyyy</p>
-        <label htmlFor="category">Category</label>
+            <p className={s.formInfo}>Enter the date like dd.mm.yyyy</p>
+        <label htmlFor="category" className={s.formLabel}>Category</label>
           <select
             id="category"
             name="category"
@@ -97,7 +97,6 @@ function TodoEditor({ onSubmit }) {
             <option className="add-todo__option" value="quote">Quote</option>
         </select>
     </form>
-</section>
     );
 }
 
@@ -106,7 +105,13 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSubmit: (title, content, category) => dispatch(todosActions.addTodo(title, content, category)),
+  onSubmit: (title, content, category) => {
+    if (title === '' || content === '' || category === '') {
+      return notifications.error();
+    };
+    dispatch(todosActions.addTodo(title, content, category));
+    notifications.successAdd();
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TodoEditor);
